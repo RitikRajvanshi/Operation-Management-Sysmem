@@ -82,7 +82,7 @@ function swaggerDocs(app) {
         })
     );
 
-    console.log(`📘 Swagger Docs available at: http://localhost:3000/api-docs`);
+    console.log(`📘 Swagger Docs available at: http://${process.env.PORT}/api-docs`);
 }
 
 module.exports = swaggerDocs;
