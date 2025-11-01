@@ -174,12 +174,12 @@ router.get('/revenuePerProduct', auth, async (req, res) => {
     const query = `
       SELECT 
         p.product_id,
-        p.name AS product_name,
+        p.product_name,
         COALESCE(SUM(op.quantity), 0) AS total_quantity_sold,
         COALESCE(SUM(op.subtotal), 0) AS total_revenue
       FROM products p
       LEFT JOIN order_products op ON p.product_id = op.product_id
-      GROUP BY p.product_id, p.name
+      GROUP BY p.product_id, p.product_name
       ORDER BY total_revenue DESC;
     `;
     const result = await pool.query(query);
