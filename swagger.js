@@ -4,8 +4,8 @@ require("dotenv").config();
 const isProduction = process.env.SERVER === "PRODUCTION";
 
 const serverUrl = isProduction
-  ? "https://operation-management-system.onrender.com" // ✅ Render production URL
-  : "http://localhost:3000"; // ✅ Local dev URL
+    ? "https://operation-management-system.onrender.com" // ✅ Render production URL
+    : "http://localhost:3000"; // ✅ Local dev URL
 
 
 const options = {
@@ -40,6 +40,10 @@ x-api-key: ${process.env.API_KEY || "YOUR_API_KEY_HERE"}
 | GET | /api/records/getRecords | Retrieve all or filter by status |
 | PUT | /api/records/updateRecord | Update a record |
 | DELETE | /api/records/deleteRecord | Delete a record |
+| Module | Description |
+|---------|--------------|
+| Records API | Manage general records (add, update, delete, list) |
+| Order Management API | Manage customers, products, orders, and payments |
 
 ---
       `,
@@ -55,7 +59,9 @@ x-api-key: ${process.env.API_KEY || "YOUR_API_KEY_HERE"}
         servers: [
             {
                 url: serverUrl,
-                description: "Local Development Server",
+                description: isProduction
+                    ? "Render Production Server"
+                    : "Local Development Server",
             },
         ],
         components: {
@@ -74,7 +80,7 @@ x-api-key: ${process.env.API_KEY || "YOUR_API_KEY_HERE"}
             },
         ],
     },
-    apis: ["./routes/*.js"], // 🔍 scan route files for Swagger comments
+    apis: ["./routes/*.js", "./swagger/*.yaml"], // 🔍 scan route files for Swagger comments
 };
 
 const swaggerSpec = swaggerJsDoc(options);
@@ -85,7 +91,7 @@ function swaggerDocs(app) {
         swaggerUi.serve,
         swaggerUi.setup(swaggerSpec, {
             swaggerOptions: {
-                persistAuthorization: true, 
+                persistAuthorization: true,
             },
         })
     );
