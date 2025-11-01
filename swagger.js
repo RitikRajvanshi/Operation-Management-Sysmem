@@ -1,6 +1,12 @@
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 require("dotenv").config();
+const isProduction = process.env.SERVER === "PRODUCTION";
+
+const serverUrl = isProduction
+  ? "https://operation-management-system.onrender.com" // ✅ Render production URL
+  : "http://localhost:3000"; // ✅ Local dev URL
+
 
 const options = {
     definition: {
@@ -11,6 +17,8 @@ const options = {
             version: "1.0.0",
             description: `
 A simple **REST API** built with **Express** and **SQL**.
+- 🧩 **Production**: ${isProduction ? "✅ Active" : "❌ Not active"}  
+- 🌐 **Base URL**: ${serverUrl}
 
 ---
 
@@ -46,7 +54,7 @@ x-api-key: ${process.env.API_KEY || "YOUR_API_KEY_HERE"}
         },
         servers: [
             {
-                url: "http://localhost:3000",
+                url: serverUrl,
                 description: "Local Development Server",
             },
         ],
@@ -82,7 +90,7 @@ function swaggerDocs(app) {
         })
     );
 
-    console.log(`📘 Swagger Docs available at: http://${process.env.PORT}/api-docs`);
+    console.log(`📘 Swagger Docs available at: ${serverUrl}/api-docs`);
 }
 
 module.exports = swaggerDocs;

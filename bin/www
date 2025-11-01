@@ -12,7 +12,12 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+const isProduction = process.env.SERVER === "PRODUCTION";
+const serverUrl = isProduction
+  ? "operation-management-system.onrender.com" // ✅ Render production URL
+  : "3000"; // ✅ Local dev URL
+
+var port = normalizePort(serverUrl || '3000');
 app.set('port', port);
 
 /**
