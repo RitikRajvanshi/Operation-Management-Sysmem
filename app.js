@@ -24,9 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-console.log("Environment Variables:");
-console.log("SERVER =", process.env.SERVER);
-console.log("API_KEY =", process.env.API_KEY);
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
